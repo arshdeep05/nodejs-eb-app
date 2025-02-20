@@ -47,6 +47,11 @@ jobs:
         run: |
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nodejs-eb-app:latest
 
+      - name: Install AWS Elastic Beanstalk CLI
+        run: |
+          pip install awsebcli --upgrade --user
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
       - name: Deploy to Elastic Beanstalk
         run: |
           eb init -p docker ${{ secrets.EB_APP_NAME }} --region ${{ secrets.AWS_REGION }}
