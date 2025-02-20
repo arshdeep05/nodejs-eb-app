@@ -33,9 +33,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Push to Amazon ECR
+      - name: Ensure ECR Repository Exists
         run: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+          aws ecr describe-repositories --repository-names nodejs-eb-app --region ${{ secrets.AWS_REGION }} || \
+          aws ecr create-repository --repository-name nodejs-eb-app --region ${{ secrets.AWS_REGION }}
+
+      - name: Authenticate with AWS ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | \
+          docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+      - name: Push Docker Image to ECR
+        run: |
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/nodejs-eb-app:latest
 
       - name: Deploy to Elastic Beanstalk
