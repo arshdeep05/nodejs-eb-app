@@ -33,7 +33,7 @@ aws configure
 
 Follow the prompts to enter your **AWS Access Key**, **Secret Access Key**, **Region**, and **Output Format**.
 
-### 3. Assign Required Permissions
+<!-- ### 3. Assign Required Permissions
 To allow AWS Elastic Beanstalk to manage deployments, attach the following policies to the IAM role:
 
 ```sh
@@ -48,9 +48,9 @@ aws iam attach-role-policy --role-name elastic_beanstalk_role \
 
 aws iam attach-role-policy --role-name elastic_beanstalk_role \
   --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
-```
+``` -->
 
-### 4. Add Secrets to GitHub Repository
+### 3. Add Secrets to GitHub Repository
 To store AWS credentials securely in GitHub Actions, follow these steps:
 
 1. Go to your GitHub repository.
@@ -65,7 +65,7 @@ To store AWS credentials securely in GitHub Actions, follow these steps:
    - `EB_ENV_NAME`
 5. Save each secret and ensure they match your AWS credentials.
 
-### 5. Deploy Infrastructure Using Terraform
+### 4. Deploy Infrastructure Using Terraform
 To automate the Elastic Beanstalk environment creation, initialize and apply Terraform:
 
 ```sh
@@ -75,7 +75,7 @@ terraform apply -auto-approve
 
 This will provision the required AWS resources for Elastic Beanstalk.
 
-### 6. Commit and Push Changes to GitHub
+### 5. Commit and Push Changes to GitHub
 After making changes, push the code to the repository to trigger the GitHub Actions CI/CD pipeline:
 
 ```sh
